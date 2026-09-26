@@ -7818,6 +7818,15 @@ impl AhjoorPaymentsContract {
             .extend_ttl(INSTANCE_LIFETIME_THRESHOLD, INSTANCE_BUMP_AMOUNT);
     }
 
+    /// #883: Returns the currently configured appeal rejection cooldown in seconds.
+    /// Defaults to 30 days (2_592_000 seconds) if never set by the admin.
+    pub fn get_appeal_rejection_cooldown(env: Env) -> u64 {
+        env.storage()
+            .instance()
+            .get(&DataKey2::AppealRejectionCooldownSeconds)
+            .unwrap_or(30 * 24 * 60 * 60)
+    }
+
     /// Admin suspends a merchant for a given duration (seconds). Payments are paused.
     pub fn suspend_merchant(
         env: Env,
@@ -11048,5 +11057,8 @@ mod test_subscription_v2;
 
 #[cfg(test)]
 mod test;
+
+#[cfg(test)]
+mod test_appeal_rejection_cooldown;
 
 pub use events::*;
