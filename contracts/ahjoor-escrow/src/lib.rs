@@ -9186,7 +9186,14 @@ impl AhjoorEscrowContract {
             .extend_ttl(INSTANCE_LIFETIME_THRESHOLD, INSTANCE_BUMP_AMOUNT);
     }
 
-
+    /// #882: Returns the currently configured veto override window in seconds.
+    /// Defaults to `DEFAULT_VETO_OVERRIDE_WINDOW_SECONDS` (48 hours) if never set.
+    pub fn get_veto_override_window(env: Env) -> u64 {
+        env.storage()
+            .persistent()
+            .get(&DataKey2::VetoOverrideWindow)
+            .unwrap_or(DEFAULT_VETO_OVERRIDE_WINDOW_SECONDS)
+    }
 
     /// Seller cancels their veto before the override window elapses, restoring normal flow.
     pub fn cancel_seller_veto(env: Env, seller: Address, escrow_id: u32) {
@@ -10081,3 +10088,6 @@ mod test_multiparty_approval;
 
 #[cfg(test)]
 mod test_funding_features;
+
+#[cfg(test)]
+mod test_veto_override_window;
