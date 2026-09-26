@@ -7,6 +7,10 @@ reference docs for the repository.
 
 ## `ahjoor-payments`
 
+- [**Multi-Token Invoice**](multi-token-invoice.md) — How to create invoices payable in multiple tokens, how oracle-based cross-token settlement works, how partial payments are tracked, and how completed invoices are batch-settled.
+- [**Merchant Referral Program**](payments-referral.md) — How a referral is registered, how commission accrues from referred-merchant payment fees, how the commission window limits accrual, and how referrers claim their balance.
+- [**Tipping**](payments-tip-subscription.md) — How to create a tipping-enabled payment, how `set_max_tip_bps` caps the gratuity, and how `set_tip_split_config` distributes the tip across multiple recipients.
+
 ## 2. ROSCA Contract (`ahjoor-rosca`)
 
 - [**Contribution Receipts in ROSCA**](rosca-contribution-receipts.md) — NFT-style contribution receipt data format, automatic minting on round finalization, event emissions, and member retrieval/verification functions.
