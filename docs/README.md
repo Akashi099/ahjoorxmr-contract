@@ -7,7 +7,8 @@ reference docs for the repository.
 
 ## `ahjoor-payments`
 
-- [**Merchant KYB Verification**](merchant-kyb.md) — How a merchant's KYB status is set, renewed, and revoked, what `set_kyb_enforcement` gates at payment creation, and how `get_merchant_kyb_status` reports expiry.
+- [**Failed Auto-Debit Retry Queue in ahjoor-payments**](payments-retry-queue.md) — Configurable exponential back-off retry queue for failed recurring debits, early customer retry trigger, max attempt handling, and recurring invoice cycle integration.
+- [**Merchant Collateral in ahjoor-payments**](payments-collateral.md) — Overview of required collateral deposits, minimum balances, withdrawals, and dispute slashing.
 
 ## 2. ROSCA Contract (`ahjoor-rosca`)
 
@@ -33,6 +34,7 @@ reference docs for the repository.
 
 ## `ahjoor-escrow`
 
+- [**Open Bounty Board & Milestone Bounties**](bounty-board.md) — Open competitive work assignment flow, solver claiming, submission review, rejection rounds, cancellation refund, and milestone-gated verifier sign-offs.
 - [**Escrow Auto-Renewal**](escrow-auto-renewal.md) — How buyers can pre-approve renewal cycles for recurring service agreements, how auto-renewals are triggered on release, and how buyers can cancel future renewals.
 - [**Multi-Party Approval**](escrow-multiparty-approval.md) — N-of-M release approval configuration, threshold requirements, approver voting, and interactions with release and dispute flows.
 - [**Dispute Timeout Enforcement**](escrow-dispute-timeout.md) — How stalled disputes are auto-resolved after a configurable timeout, per-escrow timeout overrides, default winner configuration, and the arbiter timeout counter.

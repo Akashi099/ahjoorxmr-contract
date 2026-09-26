@@ -5082,6 +5082,15 @@ impl AhjoorPaymentsContract {
             .extend_ttl(INSTANCE_LIFETIME_THRESHOLD, INSTANCE_BUMP_AMOUNT);
     }
 
+    /// Returns the configured notification key overlap window in seconds.
+    /// Default: 2_592_000 (30 days) if never set.
+    pub fn get_notification_overlap_window(env: Env) -> u64 {
+        env.storage()
+            .instance()
+            .get(&DataKey3::NotificationKeyRotationConfig)
+            .unwrap_or(DEFAULT_KEY_OVERLAP_WINDOW_SECONDS)
+    }
+
     // --- Token Swap Functions ---
 
     /// Merchant sets their preferred token for receiving payments.
@@ -5618,7 +5627,6 @@ impl AhjoorPaymentsContract {
 
     /// #327: Admin force resume a paused subscription.
     pub fn admin_resume_subscription(env: Env, admin: Address, sub_id: u32) -> u32 {
-        admin.require_auth();
         Self::require_admin(&env, &admin);
 
         let mut sub: Subscription = env
@@ -11031,6 +11039,12 @@ mod test_invoice_cap;
 
 #[cfg(test)]
 mod test_customer_cancel;
+
+#[cfg(test)]
+mod test_recurring_payment;
+
+#[cfg(test)]
+mod test_subscription_v2;
 
 #[cfg(test)]
 mod test;
