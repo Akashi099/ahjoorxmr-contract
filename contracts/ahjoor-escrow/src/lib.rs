@@ -933,6 +933,8 @@ const DEFAULT_AMENDMENT_EXPIRY_SECONDS: u64 = 7 * 24 * 60 * 60; // 7 days
 /// #420: Default veto cooldown — 7 days in seconds.
 const DEFAULT_VETO_COOLDOWN_SECONDS: u64 = 7 * 24 * 60 * 60;
 const DEFAULT_MAX_BOUNTY_REJECTION_ROUNDS: u32 = 3; // #319: max times a bounty can be rejected and re-opened
+const DEFAULT_SELLER_TRANSFER_VETO_WINDOW: u32 = 200; // #244: default buyer veto window in ledgers
+const DEFAULT_CANCELLATION_RESPONSE_WINDOW: u64 = 86400; // #229: default 1 day in seconds
 /// #366: default admin veto override window — 48 hours
 const DEFAULT_VETO_OVERRIDE_WINDOW_SECONDS: u64 = 48 * 60 * 60;
 
@@ -2798,6 +2800,15 @@ impl AhjoorEscrowContract {
             .persistent()
             .get(&DataKey2::RenewalHistory(escrow_id))
             .unwrap_or(Vec::new(&env))
+    }
+
+    /// Returns the configured renewal allowance for an escrow.
+    /// Default: 0 if never set (no pre-approved renewals).
+    pub fn get_renewal_allowance(env: Env, escrow_id: u32) -> u32 {
+        env.storage()
+            .persistent()
+            .get(&DataKey::RenewalAllowance(escrow_id))
+            .unwrap_or(0)
     }
 
     /// Returns whether the buyer has cancelled future auto-renewals for this escrow.
@@ -8761,6 +8772,15 @@ impl AhjoorEscrowContract {
         env.storage().instance().extend_ttl(INSTANCE_LIFETIME_THRESHOLD, INSTANCE_BUMP_AMOUNT);
     }
 
+    /// Returns the configured maximum top-up as basis points of the original amount.
+    /// Default: 5000 bps (50%) if never set.
+    pub fn get_max_top_up_bps(env: Env) -> u32 {
+        env.storage()
+            .instance()
+            .get(&DataKey::MaxTopUpBps)
+            .unwrap_or(5_000)
+    }
+
 
     // ─── #219: Multi-Party Split Release ─────────────────────────────────────
 
@@ -9106,6 +9126,30 @@ impl AhjoorEscrowContract {
             .instance()
             .get(&DataKey2::VetoCooldownSeconds)
             .unwrap_or(DEFAULT_VETO_COOLDOWN_SECONDS)
+    }
+
+    /// #319: Returns the max bounty rejection rounds (default 3).
+    pub fn get_max_bounty_rejection_rounds(env: Env) -> u32 {
+        env.storage()
+            .instance()
+            .get(&DataKey2::MaxBountyRejectionRounds)
+            .unwrap_or(DEFAULT_MAX_BOUNTY_REJECTION_ROUNDS)
+    }
+
+    /// #229: Returns the cancellation response window in seconds (default 1 day = 86400).
+    pub fn get_cancellation_response_window(env: Env) -> u64 {
+        env.storage()
+            .instance()
+            .get(&DataKey::CancellationResponseWindow)
+            .unwrap_or(DEFAULT_CANCELLATION_RESPONSE_WINDOW)
+    }
+
+    /// #244: Returns the seller transfer veto window in ledgers (default 200).
+    pub fn get_seller_transfer_veto_window(env: Env) -> u32 {
+        env.storage()
+            .instance()
+            .get(&DataKey2::SellerTransferVetoWindow)
+            .unwrap_or(DEFAULT_SELLER_TRANSFER_VETO_WINDOW)
     }
 
     /// Returns the pending seller transfer proposal for an escrow, if any.

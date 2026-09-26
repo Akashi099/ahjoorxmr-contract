@@ -7,9 +7,8 @@ reference docs for the repository.
 
 ## `ahjoor-payments`
 
-- [**Multi-Token Invoice**](multi-token-invoice.md) — How to create invoices payable in multiple tokens, how oracle-based cross-token settlement works, how partial payments are tracked, and how completed invoices are batch-settled.
-- [**Merchant Referral Program**](payments-referral.md) — How a referral is registered, how commission accrues from referred-merchant payment fees, how the commission window limits accrual, and how referrers claim their balance.
-- [**Tipping**](payments-tip-subscription.md) — How to create a tipping-enabled payment, how `set_max_tip_bps` caps the gratuity, and how `set_tip_split_config` distributes the tip across multiple recipients.
+- [**Failed Auto-Debit Retry Queue in ahjoor-payments**](payments-retry-queue.md) — Configurable exponential back-off retry queue for failed recurring debits, early customer retry trigger, max attempt handling, and recurring invoice cycle integration.
+- [**Merchant Collateral in ahjoor-payments**](payments-collateral.md) — Overview of required collateral deposits, minimum balances, withdrawals, and dispute slashing.
 
 ## 2. ROSCA Contract (`ahjoor-rosca`)
 
@@ -35,8 +34,12 @@ reference docs for the repository.
 
 ## `ahjoor-escrow`
 
+- [**Open Bounty Board & Milestone Bounties**](bounty-board.md) — Open competitive work assignment flow, solver claiming, submission review, rejection rounds, cancellation refund, and milestone-gated verifier sign-offs.
 - [**Escrow Auto-Renewal**](escrow-auto-renewal.md) — How buyers can pre-approve renewal cycles for recurring service agreements, how auto-renewals are triggered on release, and how buyers can cancel future renewals.
 - [**Multi-Party Approval**](escrow-multiparty-approval.md) — N-of-M release approval configuration, threshold requirements, approver voting, and interactions with release and dispute flows.
+- [**Dispute Timeout Enforcement**](escrow-dispute-timeout.md) — How stalled disputes are auto-resolved after a configurable timeout, per-escrow timeout overrides, default winner configuration, and the arbiter timeout counter.
+- [**Seller Veto Mechanism**](escrow-seller-veto.md) — How sellers can veto a fund release within a cooldown window, how the cooldown interacts with repeated veto attempts, and how admin override resets the clock.
+- [**Inspector Role**](inspector-role.md) — How a neutral inspector is assigned at escrow creation, the `submit_inspection_result` flow, dual-approval inspector replacement, and how the reputation score and threshold gate future assignments.
 
 ## `ahjoor-rosca`
 
